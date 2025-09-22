@@ -1,4 +1,4 @@
-function UserTable({users}){
+function UserTable({users, onEdit, onDelete}){
     return (
         <div>
             <table>
@@ -12,8 +12,8 @@ function UserTable({users}){
                     </tr>
                 </thead>
                 <tbody>
-                    {users.length > 0 ? (
-                        users.map((user) => (
+                    
+                        {users.map((user) => (
                             <tr key = {user.id}>
                                 <td>{user.id}</td>
                                 <td>{user.name.split(" ")[0]}</td>
@@ -21,17 +21,11 @@ function UserTable({users}){
                                 <td>{user.email}</td>
                                 <td>{user.department?.department}</td>
                                 <td>
-                                    <button>Add</button>
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                                    <button onClick={() => onEdit(user)}>Edit</button>
+                                    <button onClick={() => onDelete(user.id)}>Delete</button>
                                 </td>
                             </tr>
-                        ))
-                    ): (
-                        <tr>
-                            <td>No users found</td>
-                        </tr>
-                    )}
+                        ))}
                 </tbody>
             </table>
         </div>
