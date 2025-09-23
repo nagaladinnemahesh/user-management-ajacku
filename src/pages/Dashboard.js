@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../api";
 import UserTable from "../components/UserTable";
 import UserFormModal from "../components/UserFormModal";
+import { Modal, Button, Form } from "react-bootstrap";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
@@ -54,7 +55,6 @@ function Dashboard() {
   useEffect(() => {
     let tempUsers = [...users];
 
-    // Apply filter
     Object.keys(filterData).forEach((key) => {
       if (filterData[key]) {
         tempUsers = tempUsers.filter((user) =>
@@ -63,7 +63,6 @@ function Dashboard() {
       }
     });
 
-    // Apply search
     if (searchQuery) {
       tempUsers = tempUsers.filter((user) =>
         Object.values(user).some((val) =>
@@ -72,7 +71,6 @@ function Dashboard() {
       );
     }
 
-    // Apply sorting
     if (sortConfig.key) {
       tempUsers.sort((a, b) => {
         const aVal = a[sortConfig.key].toLowerCase();
@@ -84,7 +82,7 @@ function Dashboard() {
     }
 
     setFilteredUsers(tempUsers);
-    setCurrentPage(1); // Reset page on filter/search change
+    setCurrentPage(1);
   }, [users, filterData, searchQuery, sortConfig]);
 
   // Pagination logic
@@ -165,19 +163,26 @@ function Dashboard() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1>User Management Dashboard</h1>
-      <button onClick={handleAddClick}>Add User</button>
+    <div className="container">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h1>User Management Dashboard</h1>
+        <button className="btn btn-success" onClick={handleAddClick}>
+          Add User
+        </button>
+      </div>
 
       {/* Search & Filter */}
-      <div>
+      <div className="d-flex mb-2 gap-2">
         <input
           type="text"
           placeholder="Search..."
+          className="form-control"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button onClick={() => setFilterModalOpen(true)}>Filter</button>
+        <button className="btn btn-secondary" onClick={() => setFilterModalOpen(true)}>
+          Filter
+        </button>
       </div>
 
       {/* Table */}
@@ -189,23 +194,32 @@ function Dashboard() {
         sortConfig={sortConfig}
       />
 
-      {/* Pagination Controls */}
-      <div>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+      {/* Pagination */}
+      <div className="d-flex justify-content-between align-items-center mt-2">
         <div>
-          <select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))}>
+          Page {currentPage} of {totalPages}
+        </div>
+        <div className="d-flex gap-2">
+          <select
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+            className="form-select"
+          >
             {[10, 25, 50, 100].map((size) => (
               <option key={size} value={size}>
                 {size} per page
               </option>
             ))}
           </select>
-          <button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>
+          <button
+            className="btn btn-outline-primary"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+          >
             Prev
           </button>
           <button
+            className="btn btn-outline-primary"
             disabled={currentPage === totalPages || totalPages === 0}
             onClick={() => setCurrentPage((prev) => prev + 1)}
           >
@@ -226,31 +240,38 @@ function Dashboard() {
       )}
 
       {/* Filter Modal */}
-      {filterModalOpen && (
-        <div>
-          <h3>Filter Users</h3>
+      <Modal show={filterModalOpen} onHide={() => setFilterModalOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Filter Users</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           {["firstName", "lastName", "email", "department"].map((field) => (
-            <div key={field}>
-              <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-              <input
+            <Form.Group className="mb-2" key={field}>
+              <Form.Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Form.Label>
+              <Form.Control
                 type="text"
                 value={filterData[field]}
                 onChange={(e) =>
                   setFilterData((prev) => ({ ...prev, [field]: e.target.value }))
                 }
               />
-            </div>
+            </Form.Group>
           ))}
-          <button
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
             onClick={() =>
               setFilterData({ firstName: "", lastName: "", email: "", department: "" })
             }
           >
             Reset
-          </button>
-          <button onClick={() => setFilterModalOpen(false)}>Apply</button>
-        </div>
-      )}
+          </Button>
+          <Button variant="primary" onClick={() => setFilterModalOpen(false)}>
+            Apply
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
