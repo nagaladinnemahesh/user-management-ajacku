@@ -177,7 +177,7 @@ function Dashboard() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 centered">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>User Management Dashboard - Ajackus</h1>
         <button className="btn btn-success" onClick={handleAddClick}>
