@@ -12,20 +12,31 @@ function UserTable({users, onEdit, onDelete}){
                     </tr>
                 </thead>
                 <tbody>
+
+                        {
+                            users.length === 0 ? (
+                                <tr>
+                                    <td className="text-center">
+                                        No users found
+                                    </td>
+                                </tr>
+                            )
+                            :
                     
-                        {users.map((user) => (
+                        (users.map((user) => (
                             <tr key = {user.id}>
                                 <td>{user.id}</td>
-                                <td>{user.name.split(" ")[0]}</td>
-                                <td>{user.name.split(" ")[1] || ""}</td>
+                                <td>{user.firstName}</td>
+                                <td>{user.lastName}</td>
                                 <td>{user.email}</td>
-                                <td>{user.department?.department}</td>
+                                <td>{user.department}</td>
                                 <td>
                                     <button onClick={() => onEdit(user)}>Edit</button>
                                     <button onClick={() => onDelete(user.id)}>Delete</button>
                                 </td>
                             </tr>
-                        ))}
+                        ))
+                    )}
                 </tbody>
             </table>
         </div>
