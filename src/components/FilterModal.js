@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function FilterModal({ show, handleClose, visibleColumns, setVisibleColumns }) {
+  // update visible columns if checkbox changes
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setVisibleColumns({ ...visibleColumns, [name]: checked });

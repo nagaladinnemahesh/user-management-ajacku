@@ -1,6 +1,7 @@
 import { Table, Button } from "react-bootstrap";
 
 function UserTable({ users, onEdit, onDelete, onSort, sortConfig, visibleColumns }) {
+    // asc/desc sorting 
   const renderSortIndicator = (key) => {
     if (sortConfig.key === key) {
       return sortConfig.direction === "asc" ? " ▲" : " ▼";
@@ -12,6 +13,7 @@ function UserTable({ users, onEdit, onDelete, onSort, sortConfig, visibleColumns
     <Table striped bordered hover responsive>
       <thead>
         <tr>
+            {/* conditonal rending based on visibility */}
           {visibleColumns.id && (
             <th onClick={() => onSort("id")} style={{ cursor: "pointer" }}>
               ID {renderSortIndicator("id")}

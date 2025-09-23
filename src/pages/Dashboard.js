@@ -6,6 +6,7 @@ import { Button, Form } from "react-bootstrap";
 import FilterModal from "../components/FilterModal";
 
 function Dashboard() {
+  // state variables 
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,12 +16,12 @@ function Dashboard() {
   const [formMode, setFormMode] = useState("add");
   const [saving, setSaving] = useState(false);
 
-  // Pagination & Sorting
+  //  for pagination & sorting
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  // Search & Filter Modal
+  // search and filter modal
   const [searchQuery, setSearchQuery] = useState("");
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState({
@@ -31,12 +32,15 @@ function Dashboard() {
     department: true,
   });
 
-  // Fetch users
+  // fetching users from mock api 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
         const res = await API.get("/users");
+
+        // splitting name into first and last names
+
         const usersWithNames = res.data.map((user) => {
           const [firstName, ...lastNameParts] = user.name.split(" ");
           return {
@@ -56,11 +60,11 @@ function Dashboard() {
     fetchUsers();
   }, []);
 
-  // Filtering, Search & Sorting
+  // apply search, filter and sorting
   useEffect(() => {
     let tempUsers = [...users];
 
-    // for Search
+    // filter based on search
     if (searchQuery) {
       tempUsers = tempUsers.filter((user) =>
         Object.values(user).some((val) =>
@@ -84,7 +88,7 @@ function Dashboard() {
     }
 
     setFilteredUsers(tempUsers);
-    setCurrentPage(1);
+    setCurrentPage(1); // reset to first page
   }, [users, searchQuery, sortConfig]);
 
   // for pagination
@@ -117,6 +121,7 @@ function Dashboard() {
     }
   };
 
+  // add and edit user form submissions
   const handleFormSubmit = async (formData) => {
     setSaving(true);
     try {
@@ -161,6 +166,8 @@ function Dashboard() {
       }
     });
   };
+
+  // show loading, error status
 
   if (loading) {
     return (
