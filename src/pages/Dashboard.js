@@ -179,7 +179,7 @@ function Dashboard() {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1>User Management Dashboard</h1>
+        <h1>User Management Dashboard - Ajackus</h1>
         <button className="btn btn-success" onClick={handleAddClick}>
           Add User
         </button>
