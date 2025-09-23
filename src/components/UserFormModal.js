@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-function UserFormModal({ mode, initialData, onSubmit, onClose }) {
+function UserFormModal({ mode, initialData, onSubmit, onClose, saving }) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -10,27 +10,22 @@ function UserFormModal({ mode, initialData, onSubmit, onClose }) {
   });
 
   useEffect(() => {
-    if (initialData) {
+    if (mode === "edit" && initialData) {
       setFormData({
-        firstName: initialData.name?.split(" ")[0] || "",
-        lastName: initialData.name?.split(" ")[1] || "",
-        email: initialData.email || "",
-        department: initialData.department?.department || "",
+        firstName: initialData.firstName,
+        lastName: initialData.lastName,
+        email: initialData.email,
+        department: initialData.department,
       });
     }
-  }, [initialData]);
+  }, [mode, initialData]);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = {
-      name: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-      company: { name: formData.department },
-    };
-    onSubmit(payload);
+    onSubmit(formData);
   };
 
   return (
