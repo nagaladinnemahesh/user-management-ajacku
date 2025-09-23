@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function UserFormModal({ mode, initialData, onSubmit, onClose, saving }) {
+    // empty form for adding new user
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -9,7 +10,11 @@ function UserFormModal({ mode, initialData, onSubmit, onClose, saving }) {
     department: "",
   });
 
+  // form validation erros
+
   const [errors, setErrors] = useState({});
+
+  // gets initial data for edit
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
