@@ -73,8 +73,11 @@ function Dashboard() {
 
     if (sortConfig.key) {
       tempUsers.sort((a, b) => {
-        const aVal = a[sortConfig.key].toLowerCase();
-        const bVal = b[sortConfig.key].toLowerCase();
+        let aVal = a[sortConfig.key]
+        let bVal = b[sortConfig.key]
+        if (typeof aVal === "string") aVal = aVal.toLowerCase();
+        if (typeof bVal === "string") bVal = bVal.toLowerCase();
+        
         if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
         if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
         return 0;
