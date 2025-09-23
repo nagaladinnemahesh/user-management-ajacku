@@ -7,18 +7,22 @@ function UserTable({ users, onEdit, onDelete, onSort, sortConfig }) {
   };
 
   return (
-    <table border="1" cellPadding="5" cellSpacing="0">
-      <thead>
+    <table className="table table-bordered table-hover">
+      <thead className="table-light">
         <tr>
-          <th onClick={() => onSort("id")}>ID{renderSortIndicator("id")}</th>
-          <th onClick={() => onSort("firstName")}>
+          <th onClick={() => onSort("id")} style={{ cursor: "pointer" }}>
+            ID{renderSortIndicator("id")}
+          </th>
+          <th onClick={() => onSort("firstName")} style={{ cursor: "pointer" }}>
             First Name{renderSortIndicator("firstName")}
           </th>
-          <th onClick={() => onSort("lastName")}>
+          <th onClick={() => onSort("lastName")} style={{ cursor: "pointer" }}>
             Last Name{renderSortIndicator("lastName")}
           </th>
-          <th onClick={() => onSort("email")}>Email{renderSortIndicator("email")}</th>
-          <th onClick={() => onSort("department")}>
+          <th onClick={() => onSort("email")} style={{ cursor: "pointer" }}>
+            Email{renderSortIndicator("email")}
+          </th>
+          <th onClick={() => onSort("department")} style={{ cursor: "pointer" }}>
             Department{renderSortIndicator("department")}
           </th>
           <th>Actions</th>
@@ -27,7 +31,7 @@ function UserTable({ users, onEdit, onDelete, onSort, sortConfig }) {
       <tbody>
         {users.length === 0 ? (
           <tr>
-            <td colSpan="6" style={{ textAlign: "center" }}>
+            <td colSpan="6" className="text-center">
               No users found.
             </td>
           </tr>
@@ -40,8 +44,12 @@ function UserTable({ users, onEdit, onDelete, onSort, sortConfig }) {
               <td>{user.email}</td>
               <td>{user.department}</td>
               <td>
-                <button onClick={() => onEdit(user)}>Edit</button>{" "}
-                <button onClick={() => onDelete(user.id)}>Delete</button>
+                <button className="btn btn-sm btn-primary me-2" onClick={() => onEdit(user)}>
+                  Edit
+                </button>
+                <button className="btn btn-sm btn-danger" onClick={() => onDelete(user.id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))
