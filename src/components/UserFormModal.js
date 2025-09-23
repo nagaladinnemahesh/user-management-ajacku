@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function UserFormModal({ mode, initialData, onSubmit, onClose, saving }) {
@@ -47,7 +47,7 @@ function UserFormModal({ mode, initialData, onSubmit, onClose, saving }) {
   };
 
   return (
-    <Modal show onHide={onClose}>
+    <Modal show onHide={onClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{mode === "add" ? "Add User" : "Edit User"}</Modal.Title>
       </Modal.Header>

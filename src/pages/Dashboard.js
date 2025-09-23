@@ -31,7 +31,9 @@ function Dashboard() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        setLoading(true);
         const res = await API.get("/users");
+        setUsers(res.data);
         const usersWithNames = res.data.map((user) => {
           const [firstName, ...lastNameParts] = user.name.split(" ");
           return {
@@ -162,11 +164,20 @@ function Dashboard() {
     });
   };
 
-  if (loading) return <p>Loading Users...</p>;
+  if (loading) {
+  return (
+    <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
+}
+
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container">
+    <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>User Management Dashboard</h1>
         <button className="btn btn-success" onClick={handleAddClick}>
@@ -189,6 +200,7 @@ function Dashboard() {
       </div>
 
       {/* Table */}
+      <div className="table-responsive">  
       <UserTable
         users={currentUsers}
         onEdit={handleEditClick}
@@ -196,6 +208,7 @@ function Dashboard() {
         onSort={handleSort}
         sortConfig={sortConfig}
       />
+      </div>
 
       {/* Pagination */}
       <div className="d-flex justify-content-between align-items-center mt-2">
